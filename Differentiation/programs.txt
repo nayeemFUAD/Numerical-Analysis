@@ -5,3 +5,4 @@ Lagrange Inverse Differentiation Formula
 Newton Divided Difference Differentiation Formula
 Gauss Forward Differentiation Formula
 Gauss Backward Differentiation Formula
+Richardson Extrapolation Formula
