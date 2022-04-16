@@ -2,36 +2,39 @@
 clear all
 clc
 A = [1891, 1901, 1911, 1921, 1931];
-B = [9875, 132285, 168076, 195690, 246050];
-l = length(B) + 1;
-x = input("Enter a Year: ");
-h = A(2) - A(1);
-p = (x - A(1)) / h;
+B = [46, 66, 81, 93, 101];
+l = length(B);
 y = B(1);
-newMat = differenceTable(A, B);
-for column = 3 : l
-    row = column - 1;
-    y = y + (pCalculator(p, column - 2) / factorial(column - 2)) * newMat(row, column);
+newMAT = B';
+h = A(2) - A(1);
+x = input("Enter a Point: ");
+u = (x - A(1)) / h;
+for column = 2 : l
+    for row = column : l
+        newMAT(row, column) = newMAT(row, column - 1) - newMAT(row - 1, column - 1);
+    end
 end
-disp(newMat)
-fprintf("Output: %.4f\n", y);
-plot(A, B);
+disp([A', newMAT])
+term = 1;
+for i = 2 : l
+   term = term * (u + 2 - i);  
+   y = y + (term / factorial(i - 1)) * newMAT(i, i);
+end
+fprintf("Newton Forward Interpolation Value at (X = %d): %.4f\n", x, y);
+plot(A, B, 'red');
 hold on
-plot(x, y, '*')
-xlabel('x-axis')
-ylabel('y-axis')
-title('Newton Forward Interpolation Formula')
-title(legend, 'My Legends')
-legend('Graph', 'Point')
+plot(x, y, 'black*')
 text(x + 1, y, 'New Point')
+title('Newton Forward Interpolation Method')
+title(legend, 'Description')
+legend('Given Data', 'New Point')
+xlabel('X-Axis'); ylabel('Y-Axis')
 grid on
 hold off
-%P Calculator For Forward Interpolation
-function calculatedP = pCalculator(p, t)
-calculatedP = p;
-term = t;
-while term > 1
-    calculatedP = calculatedP * (p - (term - 1));
-    term = term - 1;
+function fact = factorial(n)
+fact = 1;
+while(n > 1)
+    fact = fact * n;
+    n = n - 1;
 end
 end
