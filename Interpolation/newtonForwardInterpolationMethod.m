@@ -1,24 +1,25 @@
-%Solved By Newton Forward Interpolation Method
 clear all
 clc
 A = [1891, 1901, 1911, 1921, 1931];
 B = [46, 66, 81, 93, 101];
 l = length(B);
+m = l - 1;
+newMat = B';
+for column = 2 : l
+    for row = 1 : m
+        newMat(row, column) = newMat(row + 1, column - 1) - newMat(row, column - 1);
+    end
+    m = m - 1;
+end
+disp([A', newMat])
 y = B(1);
-newMAT = B';
 h = A(2) - A(1);
 x = input("Enter a Point: ");
 u = (x - A(1)) / h;
-for column = 2 : l
-    for row = column : l
-        newMAT(row, column) = newMAT(row, column - 1) - newMAT(row - 1, column - 1);
-    end
-end
-disp([A', newMAT])
 term = 1;
 for i = 2 : l
    term = term * (u + 2 - i);  
-   y = y + (term / factorial(i - 1)) * newMAT(i, i);
+   y = y + (term / factorial(i - 1)) * newMat(1, i);
 end
 fprintf("Newton Forward Interpolation Value at (X = %d): %.4f\n", x, y);
 plot(A, B, 'red');
