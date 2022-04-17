@@ -1,34 +1,29 @@
-%Solve by Inverse Lagrange Interpolation Method
 clear all
 clc
-A = [2, 5, 8, 14];
-B = [94.8, 87.9, 81.3, 68.7];
+A = [168, 120, 72, 63];
+B = [3, 7, 9, 10];
 l = length(B);
-y = input("Enter a Number: ");
 x = 0;
-for i = 1 : l
-    num = 1;
-    denum = 1;
-    index = i;
-    tempX = A(i);
-    tempY = B(i);
-    for j = 1 : l
-        if(i ~= j)
-            num = num * (y - B(j));  
-            denum = denum * (tempY - B(j));
-        end      
-    end
-    x = x + tempX * (num / denum);
+y = input("Enter a Point: ");
+for iteration = 1 : l
+   num = 1;
+   denum = 1;
+   for i = 1 : l
+       if(iteration ~= i)
+           num = num * (y - B(i));
+           denum = denum * (B(iteration) - B(i));
+       end
+   end
+   x = x + (num / denum) * A(iteration);
 end
-fprintf("Output: %.4f\n", x);
-plot(A, B);
+fprintf("Interpolated Value Using Lagrange Inverse Interpolation at (Y = %.4f): %.4f\n", y, x); 
+plot(A, B, 'red');
 hold on
-plot(x, y, '*')
-xlabel('x-axis')
-ylabel('y-axis')
-title('Inverse Lagrange Interpolation Formula')
-title(legend, 'Pointers')
-legend('Graph', 'Point')
+plot(x, y, 'black*')
+xlabel('x-axis'); ylabel('y-axis')
+title('Lagrange Inverse Interpolation Formula')
+title(legend, 'Description')
+legend('Given Data', 'New Point')
 text(x + .2, y, 'New Point')
 grid on
 hold off
