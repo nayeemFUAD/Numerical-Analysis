@@ -5,6 +5,7 @@ B = [24.145 22.043 20.225 18.644 17.262 16.047];
 l = length(B);
 r = 2 * l - 1;
 c = l + 1;
+center = round(r / 2) - 1;
 newMat = zeros(r, c);
 index = 1;
 for row = 1 : 2 : r
@@ -21,13 +22,13 @@ end
 disp('Forward Difference Table')
 disp(newMat)
 x = input("Enter a Point: ");
-for i = 1 : 2 : l
-   if(x >= newMat(i, 1))
+for i = 1 : 2 : 2 * l - 1
+   if(x > newMat(i, 1))
        center = i;
    end
 end
-values = newMat(5, 2 : c);
-temp = newMat(6, 2 : c);
+values = newMat(center, 2 : c);
+temp = newMat(center + 1, 2 : c);
 for i = 1 : length(values)
    if(values(i) == 0)
        values(i) = temp(i);
