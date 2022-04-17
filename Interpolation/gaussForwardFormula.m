@@ -1,66 +1,69 @@
-% Solve By Gauss Forward Formula
 clear all
 clc
-center = 0;
 A = [2.5 3.0 3.5 4.0 4.5 5.0]; 
 B = [24.145 22.043 20.225 18.644 17.262 16.047];
-h = A(2) - A(1);
-newMat = differenceTable(A, B);
-[m, n] = size(newMat);
-x = input("Enter a Number: ");
-%Set Center
-for i = 1 : 2 : m
+l = length(B);
+r = 2 * l - 1;
+c = l + 1;
+newMat = zeros(r, c);
+index = 1;
+for row = 1 : 2 : r
+   newMat(row, 1) = A(index);
+   newMat(row, 2) = B(index);
+   index = index + 1;
+end
+for column = 3 : c
+    for row = column - 1 : 2 : r
+        newMat(row, column) = newMat(row + 1, column - 1) - newMat(row - 1, column - 1);
+    end
+    r = r - 1;
+end
+disp('Forward Difference Table')
+disp(newMat)
+x = input("Enter a Point: ");
+for i = 1 : 2 : l
    if(x >= newMat(i, 1))
-      center = i; 
+       center = i;
    end
 end
-if(x >= A(length(A)))
-    center = round(m / 2);
-    if(mod(center, 2) == 0)
-        center = center + 1;
-    end
-end
-p = (x - newMat(center, 1)) / h;
-values = newMat(center, 2 : n);
-temp = newMat(center + 1, 2 : n);
+values = newMat(5, 2 : c);
+temp = newMat(6, 2 : c);
 for i = 1 : length(values)
    if(values(i) == 0)
        values(i) = temp(i);
    end
 end
-y = values(1);
-for i = 2 : length(values)
-   y = y + values(i) * (pCalculator(p, i - 1) / factorial(i - 1));
+h = A(2) - A(1);
+u = (x - newMat(center, 1)) / h;
+y = values(1) + u * values(2);
+for i = 3 : l
+    term = u;
+    n = 1;
+    for j = 3 : i
+       if(mod(j, 2) == 0)
+           term = term * (u + n);
+           n = n + 1;
+       else
+           term = term * (u - n);
+       end
+    end
+    y = y + (term / factorial(i - 1)) * values(i);
 end
-disp(newMat)
-fprintf("Output: %.4f\n", y);
+fprintf("Interpolation Value using Gauss Forward Interpolation at (X = %.4f): %.4f\n", x, y);
 plot(A, B);
 hold on
 plot(x, y, '*')
-xlabel('x-axis')
-ylabel('y-axis')
+xlabel('x-axis'); ylabel('y-axis')
 title('Gauss Forward Interpolation Formula')
-title(legend, 'Pointers')
-legend('Graph', 'Point')
+title(legend, 'Description')
+legend('Given Data', 'New Point')
 text(x + .1, y, 'New Point')
 grid on
 hold off
-function calculatedP = pCalculator(p, t)
-calculatedP = p;
-term = floor(t / 2);
-if t > 1
-    if(mod(t, 2) ~= 0)
-        while term > 0
-            calculatedP = calculatedP * (p - term) * (p + term);
-            term = term - 1;
-        end
-    else
-        temp = term;
-        while term > 0
-            calculatedP = calculatedP * (p -term) * (p + term);
-            term = term - 1; 
-        end
-        calculatedP = calculatedP / (p + temp);
-    end
+function fact = factorial(n)
+fact = 1;
+while(n > 1)
+    fact = fact * n;
+    n = n - 1;
 end
 end
