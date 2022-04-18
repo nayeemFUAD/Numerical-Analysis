@@ -23,7 +23,7 @@ y = B(1);
 for column = 2 : l
     y = y + coefficientCalculator(x, A, column - 1) * newMat(1, column);
 end
-fprintf("Newton Devided Difference Interpolation Value at (X = %d): %.4f\n", x, y);
+fprintf("Newton Devided Difference Interpolation Value at (X = %.4f): %.4f\n", x, y);
 plot(A, B, 'red');
 hold on
 plot(x, y, 'black*')
