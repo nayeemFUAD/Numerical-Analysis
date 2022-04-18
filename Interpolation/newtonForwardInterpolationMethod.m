@@ -22,7 +22,7 @@ for i = 2 : l
    term = term * (u + 2 - i);  
    y = y + (term / factorial(i - 1)) * newMat(1, i);
 end
-fprintf("Newton Forward Interpolation Value at (X = %d): %.4f\n", x, y);
+fprintf("Newton Forward Interpolation Value at (X = %.4f): %.4f\n", x, y);
 plot(A, B, 'red');
 hold on
 plot(x, y, 'black*')
