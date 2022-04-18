@@ -16,7 +16,7 @@ for iteration = 1 : l
    end
    y = y + (num / denum) * B(iteration);
 end
-fprintf("Interpolated Value Using Lagrange Interpolation at (X = %d): %.4f\n", x, y); 
+fprintf("Interpolated Value Using Lagrange Interpolation at (X = %.4f): %.4f\n", x, y); 
 plot(A, B, 'red');
 hold on
 plot(x, y, 'black*')
