@@ -12,13 +12,15 @@ for i = 1 : length(x)
    y(i) = f(x(i));
    if(i == 1 || i == length(x))
        sum = sum + y(i);
-   else
-       if(mod(i, 2) == 0)
-           sum = sum + 4 * y(i);
-       else
-           sum = sum + 2 * y(i);
-       end
    end
+end
+Y = y(2 : length(y) - 1);
+for i = 1 : length(Y)
+    if(mod(i, 2) == 0)
+        sum = sum + 2 * Y(i);
+    else
+        sum = sum + 4 * Y(i);
+    end
 end
 answer = (h / 3) * sum;
 fprintf("Integration Value of the given function: %.4f\n", answer);
