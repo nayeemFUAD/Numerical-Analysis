@@ -3,28 +3,25 @@
 clear all
 clc
 f = @(x, y) (x.^2 + y);
-xVal(1) = 0;
-yVal(1) = 1;
-h = 0.1;
+x(1) = 0;
+y(1) = 1;
 u = input("Enter a Point to Find it's Solution: ");
-n = round(u / h) + 1;
-for i = 2 : n
-    xVal(i) = xVal(i - 1) + h;
+h = input("Enter Increament: ");
+x = x(1) : h : u;
+for i = 2 : length(x)
+    y(i) = y(i - 1) + h * f(x(i-1), y(i-1));
+    temp = y(i);
+    while(1)
+        y(i) = y(i - 1) + (h / 2) * (f(x(i-1), y(i-1)) + f(x(i), y(i)));
+        if(temp == y(i))
+            break;
+        else
+            temp = y(i);
+        end
+    end
 end
-for i = 2 : length(xVal)
-    temp = 0;
-    yVal(i) = yVal(i - 1) + h * f(xVal(i - 1), yVal(i - 1));
-    for j = 1 : 10
-       yVal(i) = yVal(i - 1) + (h/2) * (f(xVal(i - 1), yVal(i - 1)) + f(xVal(i), yVal(i)));
-       if(yVal(i) == temp)
-           break;
-       else
-           temp = yVal(i);
-       end
-     end
-end
-fprintf("The Solution Of The Given ODE at Point(x = %.2f): %.4f\n", u, yVal(length(yVal)));
-plot(xVal, yVal)
+fprintf("The Solution Of The Given ODE at Point(x = %.2f): %.4f\n", u, y(length(y)));
+plot(x, y)
 hold on
 title("Solution Of ODE Using Modified Euler's Method")
 grid on
